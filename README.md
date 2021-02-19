@@ -1,5 +1,5 @@
 # OCR
-EPITA S3 project reamde by Massil Ferhani during quarantine
+EPITA S3 project made by Massil Ferhani during quarantine
 
 # Waring
 The segmentation part is not linked to the final ocr you have to
