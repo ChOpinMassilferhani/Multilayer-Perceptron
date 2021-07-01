@@ -14,7 +14,7 @@ void clearScreen();
 
 void print_infos(struct info **infoarray);
 
-void learning(struct network *net, int len_values);
+void learning(struct network *net, int len_values, int iteration);
 
 void theword(struct network *net, int lines, int words);
 

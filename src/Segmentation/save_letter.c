@@ -215,7 +215,7 @@ void save_char(SDL_Surface *image_surface, int w, int h, int Line, int Word, int
     max_h = max(max_h,final->h);
     max_w = max(max_w,final->w);
 
-    printf("h = %d and w = %d\n",max_h,max_w);
+   //printf("h = %d and w = %d\n",max_h,max_w);
 
     for (int i = h; i < h + hh; i++)
     {

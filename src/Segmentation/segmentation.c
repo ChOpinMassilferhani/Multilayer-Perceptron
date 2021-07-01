@@ -119,15 +119,16 @@ void segmentation(SDL_Surface *image_surface)
     save_letter(image_surface);
 }
 
+/*
 int main(int argc, char **argv)
 {
     if (argc != 2)
         errx(EXIT_FAILURE, "Usage: ./segmentation <path image>");
 
-    
     SDL_Surface *image_surface = load_image(argv[1]);
 
     segmentation(image_surface);
 
     SDL_FreeSurface(image_surface);
 }
+*/

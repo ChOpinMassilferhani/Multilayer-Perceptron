@@ -84,7 +84,7 @@ void print_infos(struct info **infoarray)
     }
 }
 
-void learning(struct network *net, int len_values)
+void learning(struct network *net, int len_values, int iteration)
 {
     int k = 0;
     double learning_rate = 0.05;
@@ -93,7 +93,7 @@ void learning(struct network *net, int len_values)
     FILE *fp;
     size_t len = 0;
 
-    fp = fopen("./Data/Len.txt", "r");
+    fp = fopen("../Data/Len.txt", "r");
 
     if (fp == NULL)
         errx(EXIT_FAILURE, "Can't get the Data lenght file errno [ %s ]= %d", strerror(errno), errno);
@@ -127,7 +127,7 @@ void learning(struct network *net, int len_values)
     int cur_police = 0;
     double *input;
 
-    for (int i = 0; i < 1000000; i++)
+    for (int i = 0; i < iteration; i++)
     {
 
         k = i % len_values;

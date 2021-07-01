@@ -210,35 +210,6 @@ void wait_for_keypressed()
     } while (event.type != SDL_KEYUP);
 }
 
-/*
-   int main(int agrc, char** argv)
-   {
-   if(agrc != 2)
-   errx(EXIT_FAILURE,"./binary <path image>");
-   SDL_Surface *image_surface;
-   SDL_Surface *screen_surface;
-
-   init_sdl();
-
-   image_surface = load_image(argv[1]);
-   screen_surface = display_image(image_surface);
-
-//wait_for_keypressed();
-
-binary(image_surface); 
-update_surface(screen_surface, image_surface);
-
-screen_surface = display_image(image_surface);
-
-//wait_for_keypressed();
-SDL_FreeSurface(image_surface);
-SDL_FreeSurface(screen_surface);
-
-return 0;
-}
-*/
-
-
 void binary(SDL_Surface *image_surface){
 
     to_grey(image_surface);

@@ -19,7 +19,7 @@ void save(struct network *net)
     if (strcmp("no\n", response) == 0)
         return;
 
-    FILE *file = fopen("Save.txt", "w");
+    FILE *file = fopen("../Save.txt", "w");
 
     if (file == NULL)
         errx(EXIT_FAILURE, "Can't create the save file");
