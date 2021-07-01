@@ -5,20 +5,15 @@
 #include <err.h>
 #include <errno.h>
 #include <string.h>
-#include "../Network/network.h"
-#include "../Tools/matrice.h"
-#include "../Network/save.h"
-#include "../Tools/image_matrice.h"
-#include "../../ImageProcessing/pixel_operations.h"
-#include "../../ImageProcessing/binary.h"
+#include "network.h"
+#include "matrice.h"
+#include "save.h"
+#include "image_matrice.h"
+#include "pixel_operations.h"
+#include "binary.h"
+#include "OCR.h"
 
 const char *values = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789,.-!?";
-
-struct info
-{
-    char *str;
-    int color;
-};
 
 void clearScreen()
 {
@@ -265,124 +260,4 @@ void test_unknow(struct network *net)
         printf("\n");
     }
     fclose(file);
-}
-
-void free_network(struct network *net)
-{
-    free(net->input->mat);
-    free(net->input);
-
-    free(net->weight_ih->mat);
-    free(net->weight_ih);
-
-    for (int i = 0; i < net->layers; i++)
-    {
-        free(net->hiddens[i]->mat);
-        free(net->hiddens[i]);
-
-        free(net->hiddens_biais[i]->mat);
-        free(net->hiddens_biais[i]);
-
-        if (i != net->layers - 1)
-        {
-            free(net->weight_hh[i]->mat);
-            free(net->weight_hh[i]);
-        }
-    }
-
-    free(net->hiddens);
-
-    free(net->weight_hh);
-
-    free(net->hiddens_biais);
-
-    free(net->weight_ho->mat);
-    free(net->weight_ho);
-
-    free(net->output->mat);
-    free(net->output);
-
-    free(net->output_biais->mat);
-    free(net->output_biais);
-
-    free(net);
-}
-
-/*
-   void reverse(struct network *net)
-   {
-   mult(net->hiddens[net->layers - 1], net->weight_ho, net->output);
-   add(net->hiddens[net->layers - 1], net->hiddens[net->layers - 1], net->hiddens_biais[net->layers - 1]);
-   net->activation_function(net->hiddens[net->layers - 1]);
-
-   for (int i = net->layers - 2; i >= 0; i--)
-   {
-   mult(net->hiddens[i], net->weight_hh[i], net->hiddens[i + 1]);
-   add(net->hiddens[i], net->hiddens[i], net->hiddens_biais[i]);
-   sigmoid_activate(net->hiddens[i]);
-   }
-
-   mult(net->input, net->weight_ih, net->hiddens[0]);
-//add(net->input, net->input, net->);
-sigmoid_activate(net->input);
-}
-*/
-
-int main(int argc, char **argv)
-{
-    if (argc != 2)
-        errx(EXIT_FAILURE, "Usage: ./OCR [new / load]");
-
-    int len_values = strlen(values);
-    int input = 40 * 40;
-    int layer = 2;
-    int hidden = 120;
-    int output = len_values;
-    struct network *net;
-
-    if (strcmp(argv[1], "new") == 0)
-    {
-        net = Network_init(input, layer, hidden, output, softmax_activate, softmaxprime, 0);
-        learning(net, len_values);
-    }
-    else
-    {
-        net = load("Save.txt");
-    }
-    test_unknow(net);
-    save(net);
-
-    /*
-       for (int k = 0; k < 67; k++)
-       {
-
-       for (int i = 0; i < 67; i++)
-       net->output->mat[i] = i == k;
-
-       SDL_Surface *image_surface;
-       SDL_Surface *screen_surface;
-
-       image_surface = SDL_CreateRGBSurface(0, 40, 40, 32, 0, 0, 0, 0);
-       screen_surface = display_image(image_surface);
-
-       reverse(net);
-
-       for (int i = 0; i < 40; i++)
-       {
-       for (int j = 0; j < 40; j++)
-       {
-       Uint8 value = (net->input->mat[i * 40 + j] * 255);
-       Uint32 pixel = SDL_MapRGB(image_surface->format, value, value, value);
-       put_pixel(image_surface, j, i, pixel);
-       }
-       }
-
-       update_surface(screen_surface, image_surface);
-
-       wait_for_keypressed();
-       }
-       */
-
-    free_network(net);
-    exit(EXIT_SUCCESS);
 }

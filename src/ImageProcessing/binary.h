@@ -1,6 +1,9 @@
 #ifndef BINARY_H_
 #define BINARY_H_
 
+# include <math.h>
+# include "SDL/SDL.h"
+# include "SDL/SDL_image.h"
 
 void binary(SDL_Surface *image_surface);
 

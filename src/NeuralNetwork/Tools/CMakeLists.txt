@@ -1,31 +1,31 @@
 add_library(
-    Segmentation
+    Tools
     STATIC
-    save_letter.c
-    segmentation.c
+    image_matrice.c
+    matrice.c
 )
 
 target_include_directories(
-    Segmentation
+    Tools
     PUBLIC
     .
-    ../ImageProcessing
     )
 
 target_link_libraries(
-    Segmentation
+    Tools
     PUBLIC
+    ImageProcessing
     )
 
 set_target_properties(
-    Segmentation
+    Tools
     PROPERTIES
     C_STANDARD 99
     C_EXTENSIONS OFF
     )
 
 target_compile_definitions(
-    Segmentation
+    Tools
     PUBLIC
     "_GNU_SOURCE `pkg-config --cflags sdl` -MMD `pkg-config --libs sdl` -lSDL_image"
     )

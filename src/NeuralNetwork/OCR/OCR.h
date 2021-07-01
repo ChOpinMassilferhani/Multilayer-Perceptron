@@ -1,6 +1,13 @@
 #ifndef __OCR_H_
 #define __OCR_H_
 
+struct info
+{
+    char *str;
+    int color;
+};
+
+
 char getChar(int response);
 
 void clearScreen();

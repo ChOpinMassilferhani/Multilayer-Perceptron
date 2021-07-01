@@ -230,3 +230,47 @@ void set_input(struct network *net, double *input)
     for (int i = 0; i < len; i++)
         net->input->mat[i] = input[i];
 }
+
+
+void free_network(struct network *net)
+{
+    free(net->input->mat);
+    free(net->input);
+
+    free(net->weight_ih->mat);
+    free(net->weight_ih);
+
+    for (int i = 0; i < net->layers; i++)
+    {
+        free(net->hiddens[i]->mat);
+        free(net->hiddens[i]);
+
+        free(net->hiddens_biais[i]->mat);
+        free(net->hiddens_biais[i]);
+
+        if (i != net->layers - 1)
+        {
+            free(net->weight_hh[i]->mat);
+            free(net->weight_hh[i]);
+        }
+    }
+
+    free(net->hiddens);
+
+    free(net->weight_hh);
+
+    free(net->hiddens_biais);
+
+    free(net->weight_ho->mat);
+    free(net->weight_ho);
+
+    free(net->output->mat);
+    free(net->output);
+
+    free(net->output_biais->mat);
+    free(net->output_biais);
+
+    free(net);
+}
+
+

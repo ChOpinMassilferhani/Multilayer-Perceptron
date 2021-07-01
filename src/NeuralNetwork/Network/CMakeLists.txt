@@ -1,31 +1,32 @@
 add_library(
-    Segmentation
+    Network
     STATIC
-    save_letter.c
-    segmentation.c
+    save.c
+    network.c
 )
 
 target_include_directories(
-    Segmentation
+    Network
     PUBLIC
     .
-    ../ImageProcessing
+    ../Tools
     )
 
 target_link_libraries(
-    Segmentation
+    Network
     PUBLIC
+    Tools
     )
 
 set_target_properties(
-    Segmentation
+    Network
     PROPERTIES
     C_STANDARD 99
     C_EXTENSIONS OFF
     )
 
 target_compile_definitions(
-    Segmentation
+    Network
     PUBLIC
-    "_GNU_SOURCE `pkg-config --cflags sdl` -MMD `pkg-config --libs sdl` -lSDL_image"
+    "_GNU_SOURCE"
     )

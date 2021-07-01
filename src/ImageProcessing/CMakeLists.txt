@@ -13,7 +13,8 @@ target_include_directories(
 
 target_link_libraries(
     ImageProcessing
-    PRIVATE
+    PUBLIC
+    SDL_image
     )
 
 set_target_properties(
@@ -27,7 +28,4 @@ target_compile_definitions(
     ImageProcessing
     PUBLIC
     "_GNU_SOURCE"
-    "`pkg-config --cflags sdl` -MMD"
-    "-Wall -Wextra -Werror -std=c99 -g -O3"
-    "`pkg-config --libs sdl` -lSDL_image"
     )

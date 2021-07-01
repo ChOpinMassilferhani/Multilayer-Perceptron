@@ -46,125 +46,125 @@ void to_grey( SDL_Surface *image_surface){
 
 int otsu(int histo[], SDL_Surface* img)
 {
-	double* seuil = calloc(256,sizeof(double));
-	int len = img->w * img->h;
-	for(int i = 0; i < 256; i++)
-	{
-		double first = 0.0;
-		double second = 0.0;
-		for(int j = 0; j < i;j++)
-		{
-			double weight = 0.0;
-			double mean = 0.0;
-			double var = 0.0;
-			int k = 0;
-			while(k<i)
-			{
-				mean += k*histo[k];
-				weight += histo[k];
-				k++;
-			}
-			weight = weight / (double) len;
-			mean = mean / (double) len;
-			k = 0;
-			while(k < j)
-			{
-				var += pow(k - fabs(mean),2) * histo[k];
-				k++;
-			}
-			var = var / (double) len;
-			first = weight * var;
-		}
-		for(int j = i; j < 256;j++)
-		{
-			double weight = 0.0;
-			double mean = 0.0;
-			double var = 0.0;
-			int k = i;
-			while(k<256)
-			{
-				mean += k*histo[k];
-				weight += histo[k];
-				k++;
-			}
-			weight = weight / (double) len;
-			mean = mean / (double) len;
-			k = 0;
-			while(k < 256)
-			{
-				var += pow(k - fabs(mean),2) * histo[k];
-				k++;
-			}
-			var = var / (double) len;
-			second = weight * var;
-		}
-		seuil[i] = first + second;
-	}
-	int index = 0;
-	for(int i = 0; i < 256; i++)
-	{
-		if(seuil[i] < seuil[index])
-			index = i;
-	}
-	free(seuil);
-	return index;
+    double* seuil = calloc(256,sizeof(double));
+    int len = img->w * img->h;
+    for(int i = 0; i < 256; i++)
+    {
+        double first = 0.0;
+        double second = 0.0;
+        for(int j = 0; j < i;j++)
+        {
+            double weight = 0.0;
+            double mean = 0.0;
+            double var = 0.0;
+            int k = 0;
+            while(k<i)
+            {
+                mean += k*histo[k];
+                weight += histo[k];
+                k++;
+            }
+            weight = weight / (double) len;
+            mean = mean / (double) len;
+            k = 0;
+            while(k < j)
+            {
+                var += pow(k - fabs(mean),2) * histo[k];
+                k++;
+            }
+            var = var / (double) len;
+            first = weight * var;
+        }
+        for(int j = i; j < 256;j++)
+        {
+            double weight = 0.0;
+            double mean = 0.0;
+            double var = 0.0;
+            int k = i;
+            while(k<256)
+            {
+                mean += k*histo[k];
+                weight += histo[k];
+                k++;
+            }
+            weight = weight / (double) len;
+            mean = mean / (double) len;
+            k = 0;
+            while(k < 256)
+            {
+                var += pow(k - fabs(mean),2) * histo[k];
+                k++;
+            }
+            var = var / (double) len;
+            second = weight * var;
+        }
+        seuil[i] = first + second;
+    }
+    int index = 0;
+    for(int i = 0; i < 256; i++)
+    {
+        if(seuil[i] < seuil[index])
+            index = i;
+    }
+    free(seuil);
+    return index;
 }
 
 void create_histo2(int array[], SDL_Surface* img) //Histogram w/near neighbors
 {
-	int width = img->w;
-	int height = img->h;
-	int grey;
+    int width = img->w;
+    int height = img->h;
+    int grey;
 
-	Uint8 r,g,b;
+    Uint8 r,g,b;
 
 
-	for(int i=0; i < height; i++)
-	{
-		for(int j=0; j < width; j++)
-		{
-			Uint32 pixel1 = get_pixel(img,j,i);
-			SDL_GetRGB(pixel1, img->format, &r, &g, &b);
-			grey = ((int) r + (int) g + (int) b) / 3;
-			array[grey] += 1;
-		}
-	}
+    for(int i=0; i < height; i++)
+    {
+        for(int j=0; j < width; j++)
+        {
+            Uint32 pixel1 = get_pixel(img,j,i);
+            SDL_GetRGB(pixel1, img->format, &r, &g, &b);
+            grey = ((int) r + (int) g + (int) b) / 3;
+            array[grey] += 1;
+        }
+    }
 
 }
 
 void Binarisation(SDL_Surface* img, int seuil) //Binarization
 {
-	int width = img->w;
-	int height = img->h;
+    int width = img->w;
+    int height = img->h;
 
 
 
-	Uint32 pixel;
-	Uint32 newpixel;
+    Uint32 pixel;
+    Uint32 newpixel;
 
-	for(int i=0; i<height;i++)
-	{
-		for(int j=0; j<width; j++)
-		{
-			pixel = get_pixel(img,j,i);
+    for(int i=0; i<height;i++)
+    {
+        for(int j=0; j<width; j++)
+        {
+            pixel = get_pixel(img,j,i);
 
-			Uint8 r,g,b;
-			SDL_GetRGB(pixel, img->format, &r, &g, &b);
+            Uint8 r,g,b;
+            SDL_GetRGB(pixel, img->format, &r, &g, &b);
 
 
-			if(r<= seuil)
-			{
-				newpixel = SDL_MapRGB(img->format, 0,0,0);
-				put_pixel(img,j,i,newpixel);
-			}
+            if(r<= seuil)
+            {
+                newpixel = SDL_MapRGB(img->format, 0,0,0);
+                put_pixel(img,j,i,newpixel);
+            }
 
-			else
-			{
-				newpixel = SDL_MapRGB(img->format,255,255,255);
-				put_pixel(img,j,i,newpixel);
-			}
-		}
-	}
+            else
+            {
+                newpixel = SDL_MapRGB(img->format,255,255,255);
+                put_pixel(img,j,i,newpixel);
+            }
+        }
+    }
 
 }
 
@@ -179,7 +179,7 @@ SDL_Surface *display_image(SDL_Surface *img)
     {
         // error management
         errx(1, "Couldn't set %dx%d video mode: %s\n",
-             img->w, img->h, SDL_GetError());
+                img->w, img->h, SDL_GetError());
     }
 
     // Blit onto the screen surface
@@ -211,38 +211,38 @@ void wait_for_keypressed()
 }
 
 /*
-int main(int agrc, char** argv)
-{
-    if(agrc != 2)
-        errx(EXIT_FAILURE,"./binary <path image>");
-    SDL_Surface *image_surface;
-    SDL_Surface *screen_surface;
+   int main(int agrc, char** argv)
+   {
+   if(agrc != 2)
+   errx(EXIT_FAILURE,"./binary <path image>");
+   SDL_Surface *image_surface;
+   SDL_Surface *screen_surface;
 
-    init_sdl();
+   init_sdl();
 
-    image_surface = load_image(argv[1]);
-    screen_surface = display_image(image_surface);
+   image_surface = load_image(argv[1]);
+   screen_surface = display_image(image_surface);
 
-    //wait_for_keypressed();
+//wait_for_keypressed();
 
-    binary(image_surface); 
-    update_surface(screen_surface, image_surface);
+binary(image_surface); 
+update_surface(screen_surface, image_surface);
 
-    screen_surface = display_image(image_surface);
+screen_surface = display_image(image_surface);
 
-    //wait_for_keypressed();
-    SDL_FreeSurface(image_surface);
-    SDL_FreeSurface(screen_surface);
+//wait_for_keypressed();
+SDL_FreeSurface(image_surface);
+SDL_FreeSurface(screen_surface);
 
-    return 0;
+return 0;
 }
 */
 
 
 void binary(SDL_Surface *image_surface){
-    
+
     to_grey(image_surface);
-	
+
     int* Histo = calloc(256,sizeof(int));
     create_histo2(Histo,image_surface);
     int t = otsu(Histo,image_surface);

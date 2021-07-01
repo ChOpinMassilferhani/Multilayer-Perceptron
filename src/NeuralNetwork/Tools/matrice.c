@@ -47,7 +47,7 @@ void randomise_mat(struct matrice *cur)
     {
         cur->mat[i] = (((double)rand())/(double)RAND_MAX)*2 -1;
     }
-    
+
 }
 
 void print_matrix(struct matrice *cur)

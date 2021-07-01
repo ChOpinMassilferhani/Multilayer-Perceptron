@@ -1,6 +1,7 @@
 #include <err.h>
 #include <stdlib.h>
-#include "../ImageProcessing/binary.h"
+#include "binary.h"
+#include "pixel_operations.h"
 #include "save_letter.h"
 #include "segmentation.h"
 
