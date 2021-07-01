@@ -6,4 +6,4 @@ This project finally op !
 
 # Usage
 > - chmod +x install.sh
-> - ./Executable [new | load] <image path>
+> - ./Executable [new | load] [image path]
